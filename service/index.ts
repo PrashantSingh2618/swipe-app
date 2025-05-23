@@ -48,16 +48,10 @@ export const handleSwipeApi = async (productId: number, actionType: number) => {
 
 export const getRecommendationsApi = async () => {
   try {
-    const user_id = getUserId();
-    return {
-      user_id: user_id,
-      recommendations: ["7350", "7350", "7350", "7350", "7350", "7350"],
-      message: null,
-    };
-    //   const response = await axios.post(`${API_BASE_URL}/recommendations`, {
-    //     user_id: "user123"
-    //   });
-    //   return response.data;
+      const response = await axios.post(`${API_BASE_URL}/recommendations`, {
+        user_id: "user123"
+      });
+      return response.data;
   } catch (error) {
     console.error("Error fetching products:", error);
     throw error;

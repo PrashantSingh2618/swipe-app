@@ -178,7 +178,7 @@ export default function ProductSwiper({
   return (
     <div className="relative h-[700px] w-full">
       {/* Toast Notification */}
-      {showToast && (
+      {/* {showToast && (
         <Toast
           key={currentProduct?.id}
           message={toastMessage}
@@ -189,7 +189,7 @@ export default function ProductSwiper({
             setShowToast(false);
           }}
         />
-      )}
+      )} */}
 
       <div className="relative h-full w-full shadow-lg">
         {/* Next Card (Background) */}
