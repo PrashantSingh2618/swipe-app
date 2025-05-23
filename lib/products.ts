@@ -1,5 +1,5 @@
 export interface Product {
-  id: string
+  image_url: string
   name: string
   description: string
   price: number
@@ -10,6 +10,7 @@ export interface Product {
   rating: number
   category: string
   size: string[]
+  id: number
 }
 
 export const products: Product[] = [

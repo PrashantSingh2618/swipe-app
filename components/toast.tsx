@@ -11,7 +11,12 @@ interface ToastProps {
   onClose: () => void
 }
 
-export default function Toast({ message, type = "success", duration = 3000, onClose }: ToastProps) {
+export default function Toast({
+  message,
+  type = "success",
+  duration = 3000,
+  onClose,
+}: ToastProps) {
   const [isVisible, setIsVisible] = useState(true)
 
   useEffect(() => {
@@ -40,15 +45,18 @@ export default function Toast({ message, type = "success", duration = 3000, onCl
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          className={`fixed top-4 left-1/2 -translate-x-1/2 ${getToastColor()} text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2`}
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -100, opacity: 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          initial={{ opacity: 0, x: 100, y: -20 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          exit={{ opacity: 0, x: 100, y: -20 }}
+          transition={{ type: "spring", stiffness: 500, damping: 30 }}
+          className={`fixed top-6 right-6 z-50 px-6 py-4 rounded-xl text-white shadow-xl flex items-center gap-4 w-[320px] ${getToastColor()}`}
         >
-          <span className="text-lg font-bold">{message}</span>
-          <button onClick={() => setIsVisible(false)} className="ml-2">
-            <X size={18} />
+          <div className="flex-1 font-semibold text-base">{message}</div>
+          <button
+            onClick={() => setIsVisible(false)}
+            className="text-white hover:text-gray-200 transition"
+          >
+            <X size={20} />
           </button>
         </motion.div>
       )}

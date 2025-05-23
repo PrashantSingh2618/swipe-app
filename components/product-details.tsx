@@ -14,6 +14,17 @@ interface ProductDetailsProps {
 }
 
 export default function ProductDetails({ product, onClose, onAddToCart }: ProductDetailsProps) {
+  product = {
+    ...product,
+    images: [
+      'https://images.quince.com/2rMAgvoIWI0GHhi8R2VxlG/9e83150a6dcab1fbcca6b51e0bd66071/W-BLO-97-FGRN-3244_EDITED_1.jpg',
+      'https://images.quince.com/3iVAfAu0PmRG90aT7PWl4w/61493d98290435606d665a9ede4bf9a4/W-BLO-97-FGRN-3244_EDITED.jpg',
+      'https://images.quince.com/1rS14dLRvuyFndljxjil3J/db2065c96f1e0a7629c1be4b47c22ed5/W-BLO-97-FGRN-3301_EDITED.jpg',
+      'https://images.quince.com/5rdAPXiKlTQXNhs5HYqwVH/2c695262dcf1f791af0cb0cfce2fd8ad/W-BLO-97-FGRN-3270_EDITED.jpg',
+      'https://images.quince.com/7qDLvbNYUeCwygL98fiTid/4c28201c6244f9150bd7af31c33d2cde/W-BLO-97-FGRN-3314_EDITED.jpg',
+      'https://images.quince.com/3CpzJ2owtAToX5VbOUVylf/8a1898d53737f4ae67b8118f77935726/W-BLO-97-FGRN-3288_EDITED.jpg',
+    ]
+  }
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const [selectedSize, setSelectedSize] = useState(product.size[0])
 
@@ -45,6 +56,10 @@ export default function ProductDetails({ product, onClose, onAddToCart }: Produc
     }),
   }
 
+  const format = (str: string)=>{
+    return str.replace(/<[^>]*>/g, '').trim();
+  }
+
   return (
     <div className="flex flex-col h-full">
       {/* Header with Image */}
@@ -67,7 +82,7 @@ export default function ProductDetails({ product, onClose, onAddToCart }: Produc
           <AnimatePresence custom={direction} mode="popLayout">
             <motion.img
               key={currentImageIndex}
-              src={product.images[currentImageIndex] || "/placeholder.svg"}
+              src={product.images[currentImageIndex] || "https://redthread.uoregon.edu/files/large/affd16fd5264cab9197da4cd1a996f820e601ee4.jpg"}
               alt={product.name}
               className="w-full h-full object-cover"
               custom={direction}
@@ -243,7 +258,7 @@ export default function ProductDetails({ product, onClose, onAddToCart }: Produc
           transition={{ delay: 0.7 }}
         >
           <h3 className="text-sm font-medium">Description</h3>
-          <p className="text-sm text-gray-600 mt-2">{product.description}</p>
+          <p className="text-sm text-gray-600 mt-2">{format(product.description)}</p>
         </motion.div>
 
         <motion.div
