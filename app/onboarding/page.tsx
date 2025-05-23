@@ -63,7 +63,7 @@ export default function Onboarding() {
       <div className={styles.content}>
         <div>
           <h2 className={styles.title}>Interests</h2>
-          <p className={styles.description}>Which categories catches your eye?</p>
+          <p className={styles.description}>Which categories catch your eye?</p>
         </div>
         <OnboardingSelector selectedInterests={selectedInterests} handleSelectedInterests={handleSelectedInterests} />
       </div>

@@ -94,3 +94,23 @@ export const updateUserPreference = async (preferences: string[]) => {
     throw error;
   }
 };
+
+export const getWishlist = async (user_id: string = "user123") => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/wishlist/${user_id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching wishlist:", error);
+    throw error;
+  }
+};
+
+export const removeFromWishlist = async (user_id: string = "user123", item_id: string) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/wishlist/${user_id}/${item_id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error removing from wishlist:", error);
+    throw error;
+  }
+}
