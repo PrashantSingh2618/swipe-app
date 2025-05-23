@@ -24,7 +24,7 @@ export default function Wishlist() {
   }, []);
 
   const handleRemoveFromWishlist = async (id: string) => {
-    await removeFromWishlist("user123", id);
+    await removeFromWishlist(id);
     fetchWishlist();
   }
 
@@ -49,7 +49,7 @@ export default function Wishlist() {
   return <div className={styles.wishlistContainer}>
     <UndoHeader
       undoHistory={undoHistory}
-      onUndo={(newHistory) => {
+      onUndo={(newHistory: any) => {
         setUndoHistory(newHistory);
       }}
       hideBackButton

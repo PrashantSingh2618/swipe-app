@@ -102,7 +102,7 @@ export const updateUserPreference = async (preferences: string[]) => {
   }
 };
 
-export const getWishlist = async (user_id: string = "user123") => {
+export const getWishlist = async () => {
   try {
     const user_id = getUserId();
     const response = await axios.get(`${API_BASE_URL}/wishlist/${user_id}`);
@@ -113,10 +113,7 @@ export const getWishlist = async (user_id: string = "user123") => {
   }
 };
 
-export const removeFromWishlist = async (
-  user_id: string = "user123",
-  item_id: string
-) => {
+export const removeFromWishlist = async (item_id: string) => {
   try {
     const user_id = getUserId();
     const response = await axios.delete(
@@ -129,7 +126,7 @@ export const removeFromWishlist = async (
   }
 };
 
-export const handleBackApi = async (user_id: string = "user123") => {
+export const handleBackApi = async () => {
   try {
     const user_id = getUserId();
     const response = await axios.post(`${API_BASE_URL}/undo-swipe/${user_id}`);

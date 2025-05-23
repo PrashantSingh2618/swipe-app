@@ -8,13 +8,13 @@ import { useRouter } from 'next/navigation'
 const UNDO_HISTORY_SIZE = 5
 
 interface UndoHeaderProps {
-  onUndo: () => void
+  onUndo?: () => void
   hideBackButton?: boolean
 }
 
 export default function UndoHeader({ onUndo, hideBackButton = false }: UndoHeaderProps) {
   const router = useRouter();
-  
+
   return (
     <div className="flex justify-between items-center mt-4 mb-4 border-b border-gray-200 pb-4 px-4">
        {!hideBackButton && (
