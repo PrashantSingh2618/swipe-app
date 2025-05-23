@@ -2,6 +2,7 @@
 
 import UndoIcon from '@/public/undo.svg'
 import Icon from "./ui/icon"
+import { useRouter } from 'next/navigation'
 
 // Configuration for the undo history
 const UNDO_HISTORY_SIZE = 5
@@ -12,6 +13,8 @@ interface UndoHeaderProps {
 }
 
 export default function UndoHeader({ onUndo, hideBackButton = false }: UndoHeaderProps) {
+  const router = useRouter();
+  
   return (
     <div className="flex justify-between items-center mt-4 mb-4 border-b border-gray-200 pb-4 px-4">
        {!hideBackButton && (
@@ -20,7 +23,9 @@ export default function UndoHeader({ onUndo, hideBackButton = false }: UndoHeade
         </div>
       )}
 
-      <div>
+      <div onClick={() => {
+        router.push('/')
+      }}>
         <img src="Logo.png" alt="quince logo" className="h-8" />
       </div>
 

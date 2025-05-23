@@ -55,10 +55,15 @@ export default function Wishlist() {
       hideBackButton
     />
     {
-      loading ? <div className="flex flex-1 justify-center items-center h-[90vh]">
+      loading && <div className="flex flex-1 justify-center items-center h-[90vh]">
         <div className="w-10 h-10 border-2 border-[#ffa273] border-t-transparent rounded-full animate-spin" />
-      </div>
-        : <>
+      </div>}
+      {!loading && list.length === 0 && <div className="flex flex-1 justify-center items-center h-[90vh]">
+        <div className="text-center text-sm text-gray-500">
+          No items in your wishlist
+        </div>
+      </div>}
+        {!loading && list.length > 0 && <>
           <div className={styles.wishlistHeader}>
             <h2 className={styles.wishlistHeaderTitle}>
               My Favorites
@@ -105,7 +110,8 @@ export default function Wishlist() {
                 </div>
               </div>
             ))}
-          </div></>
+          </div>
+        </>
     }
   </div>;
 }

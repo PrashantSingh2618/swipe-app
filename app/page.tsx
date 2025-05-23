@@ -94,7 +94,7 @@ export default function Home() {
 
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-4 md:p-8">
+    <main className="flex min-h-screen flex-col items-center justify-between md:p-8">
       <div className="w-full max-w-lg mx-auto flex flex-col flex-grow">
         <UndoHeader
           onUndo={handleUndo}
@@ -110,7 +110,7 @@ export default function Home() {
           />
         ) : (
           <div className="flex flex-1 justify-center items-center">
-            <div className="w-6 h-6 border-2 border-[#ffa273] border-t-transparent rounded-full animate-spin" />
+            <div className="w-10 h-10 border-2 border-[#ffa273] border-t-transparent rounded-full animate-spin" />
           </div>
         )}
       </div>
