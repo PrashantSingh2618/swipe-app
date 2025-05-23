@@ -1,7 +1,8 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { RotateCcw } from "lucide-react"
+import UndoIcon from '@/public/undo.svg'
+import Icon from "./ui/icon"
 
 // Configuration for the undo history
 const UNDO_HISTORY_SIZE = 5
@@ -23,11 +24,11 @@ export default function UndoHeader({ undoHistory, onUndo, hideBackButton = false
 
   return (
     <div className="flex justify-between items-center mt-4 mb-4 border-b border-gray-200 pb-4 px-4">
-       {!hideBackButton && (
+      {!hideBackButton && (
         <div>
-          <img src="back.png" alt="back" className="w-8 h-8" />
+          <Icon iconSvg={UndoIcon} />
         </div>
-       )}
+      )}
 
       <div>
         <img src="Logo.png" alt="quince logo" className="h-8" />
