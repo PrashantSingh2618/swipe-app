@@ -114,3 +114,15 @@ export const removeFromWishlist = async (user_id: string = "user123", item_id: s
     throw error;
   }
 }
+
+export const handleBackApi = async (user_id: string = "user123") => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/undo-swipe/${user_id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error removing from wishlist:", error);
+    throw error;
+  }
+}
+
+

@@ -4,7 +4,7 @@ import Footer from "@/components/footer";
 import ProductSwiper from "@/components/product-swiper";
 import UndoHeader from "@/components/undo-header";
 import { Product, products } from "@/lib/products";
-import { getProductDetails, getRecommendationsApi, getSoraImage } from "@/service";
+import { getProductDetails, getRecommendationsApi, getSoraImage, handleBackApi } from "@/service";
 import { useEffect, useState } from "react";
 
 interface PropsType {
@@ -49,7 +49,6 @@ export default function Home() {
           };
         })
       );
-      console.log('Debug ', {finalData})
 
       setProducts((prev) => ({
         ...prev,
@@ -61,7 +60,6 @@ export default function Home() {
         ...products,
         error: "Something went wrong",
       });
-      console.log("Debug err", err);
     }
   };
 
@@ -69,17 +67,37 @@ export default function Home() {
     getRecommendations();
   }, []);
 
-  console.log('Debug products array is ', {products})
+  const handleUndo =  async ()=> {
+      try{
+        const res = await handleBackApi()
+        const productId = res.item_id
+        const [soraImage, productDetails] = await Promise.all([
+          getSoraImage(productId),
+          getProductDetails(productId),
+        ]);
+        const restoredProduct = {
+          productId,
+          ...soraImage,
+          ...productDetails,
+        };
+        setProducts((prev) => {
+          const updated = [...prev.data];
+          updated[currentIndex] = restoredProduct;
+          return { ...prev, data: updated };
+        });
+        setCurrentIndex(currentIndex);
+      }
+      catch(err){
+  
+      }
+    }
+
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-4 md:p-8">
       <div className="w-full max-w-lg mx-auto flex flex-col flex-grow">
         <UndoHeader
-          undoHistory={undoHistory}
-          onUndo={(newHistory, restoredIndex) => {
-            setUndoHistory(newHistory);
-            setCurrentIndex(restoredIndex);
-          }}
+          onUndo={handleUndo}
         />
         {products?.data.length > 0 ? (
           <ProductSwiper

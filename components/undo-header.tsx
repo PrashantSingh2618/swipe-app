@@ -1,6 +1,5 @@
 "use client"
 
-import { motion } from "framer-motion"
 import UndoIcon from '@/public/undo.svg'
 import Icon from "./ui/icon"
 
@@ -8,25 +7,16 @@ import Icon from "./ui/icon"
 const UNDO_HISTORY_SIZE = 5
 
 interface UndoHeaderProps {
-  undoHistory: number[]
-  onUndo: (newHistory: number[], restoredIndex: number) => void
+  onUndo: () => void
   hideBackButton?: boolean
 }
 
-export default function UndoHeader({ undoHistory, onUndo, hideBackButton = false }: UndoHeaderProps) {
-  const handleUndo = () => {
-    if (undoHistory.length > 0) {
-      // Get the most recent index from history and remove it
-      const [lastIndex, ...remainingHistory] = undoHistory
-      onUndo(remainingHistory, lastIndex)
-    }
-  }
-
+export default function UndoHeader({ onUndo, hideBackButton = false }: UndoHeaderProps) {
   return (
     <div className="flex justify-between items-center mt-4 mb-4 border-b border-gray-200 pb-4 px-4">
-      {!hideBackButton && (
-        <div>
-          <Icon iconSvg={UndoIcon} />
+       {!hideBackButton && (
+        <div onClick={onUndo}>
+           <Icon iconSvg={UndoIcon} />
         </div>
       )}
 
