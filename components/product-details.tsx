@@ -15,6 +15,8 @@ interface ProductDetailsProps {
 
 export default function ProductDetails({ product, onClose, onAddToCart }: ProductDetailsProps) {
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
+  const [selectedSize, setSelectedSize] = useState(product.size[0])
+
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [direction, setDirection] = useState(0) // -1 for left, 1 for right
 
@@ -61,7 +63,7 @@ export default function ProductDetails({ product, onClose, onAddToCart }: Produc
           <X size={20} />
         </motion.button>
 
-        <div className="relative h-48 overflow-hidden">
+        <div className="relative h-70 overflow-hidden">
           <AnimatePresence custom={direction} mode="popLayout">
             <motion.img
               key={currentImageIndex}
@@ -204,6 +206,36 @@ export default function ProductDetails({ product, onClose, onAddToCart }: Produc
           </div>
         </motion.div>
 
+
+        <motion.div
+          className="mt-4"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          <h3 className="text-[12px] font-medium">Size</h3>
+          <div className="flex space-x-2 mt-2">
+            {product.size.map((size, index) => (
+              <motion.div
+                key={size}
+                className={`w-14 h-14 flex items-center justify-center text-lg rounded border transition-colors duration-200 cursor-pointer ${
+                  selectedSize === size ? 'border-black text-black font-semibold' : 'border-gray-300 text-gray-700'
+                }`}
+                onClick={() => {
+                  setSelectedSize(size)
+                }}
+                initial={{ scale: 0, rotate: 180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ delay: 0.6 + index * 0.1, type: 'spring' }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {size}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
         <motion.div
           className="mt-4"
           initial={{ y: 20, opacity: 0 }}
@@ -241,10 +273,10 @@ export default function ProductDetails({ product, onClose, onAddToCart }: Produc
         className="sticky bottom-0 left-0 right-0 p-4 bg-white border-t"
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.3, type: "spring" }}
+        transition={{ delay: 0.3, type: 'spring' }}
       >
         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <Button className="w-full" onClick={onAddToCart}>
+          <Button className="w-full bg-[#ffa273] text-black text-[12px] h-12" onClick={onAddToCart}>
             Add to Cart
           </Button>
         </motion.div>

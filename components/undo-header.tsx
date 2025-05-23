@@ -21,31 +21,20 @@ export default function UndoHeader({ undoHistory, onUndo }: UndoHeaderProps) {
   }
 
   return (
-    <div className="mb-4 bg-white rounded-lg shadow-md p-3">
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-sm font-medium text-gray-700">Recently Discarded</h2>
-          <p className="text-xs text-gray-500">
-            {undoHistory.length > 0
-              ? `${undoHistory.length} product${undoHistory.length > 1 ? "s" : ""} in history`
-              : "No discarded products"}
-          </p>
-        </div>
-        <motion.button
-          className={`bg-white border border-gray-200 text-gray-800 px-3 py-1.5 rounded-md shadow-sm flex items-center gap-1.5 ${
-            undoHistory.length === 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50"
-          }`}
-          onClick={handleUndo}
-          disabled={undoHistory.length === 0}
-          whileHover={undoHistory.length > 0 ? { scale: 1.03 } : {}}
-          whileTap={undoHistory.length > 0 ? { scale: 0.97 } : {}}
-        >
-          <RotateCcw size={14} />
-          <span className="text-sm font-medium">
-            Undo ({undoHistory.length}/{UNDO_HISTORY_SIZE})
-          </span>
-        </motion.button>
+    <div className="flex justify-between items-center mt-4 mb-4">
+       <div>
+        <img src="undo.png" alt="go back" className="" />
       </div>
+
+      <div>
+        <img src="Logo.png" alt="quince logo" className="h-8" />
+      </div>
+
+      <div>
+        <img src="bag.png" alt="quince logo" className="w-8 h-8" />
+      </div>
+
+
     </div>
   )
 }
