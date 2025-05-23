@@ -3,6 +3,12 @@ import axios from "axios";
 const API_BASE_URL =
   "http://ec2-13-234-240-99.ap-south-1.compute.amazonaws.com:8000";
 
+const getUserId = () => {
+  const userId = JSON.parse(localStorage.getItem("userId") || "");
+  console.log("userId", userId);
+  return userId;
+};
+
 export const getSoraImage = async (productId: number) => {
   try {
     const response = await axios.get(
@@ -19,7 +25,6 @@ export const getProductDetails = async (productId: number) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/product/${productId}`);
     return response.data;
-   
   } catch (error) {
     console.error("Error fetching sora iamges:", error);
     throw error;
@@ -27,25 +32,26 @@ export const getProductDetails = async (productId: number) => {
 };
 
 export const handleSwipeApi = async (productId: number, actionType: number) => {
-    try {
-      const response = await axios.post(`${API_BASE_URL}/swipe`, {
-        item_id: productId,
-        user_id: "user123",
-        interaction_type:actionType
-      });
-      return response.data;
-     
-    } catch (error) {
-      console.error("Error syncing :", error);
-      throw error;
-    }
-  };
+  try {
+    const user_id = getUserId();
+    const response = await axios.post(`${API_BASE_URL}/swipe`, {
+      item_id: productId,
+      user_id: user_id,
+      interaction_type: actionType,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error syncing :", error);
+    throw error;
+  }
+};
 
 export const getRecommendationsApi = async () => {
   try {
+    const user_id = getUserId();
     return {
-      user_id: "user123",
-      recommendations: ["7350", "7350","7350","7350","7350","7350"],
+      user_id: user_id,
+      recommendations: ["7350", "7350", "7350", "7350", "7350", "7350"],
       message: null,
     };
     //   const response = await axios.post(`${API_BASE_URL}/recommendations`, {
@@ -80,8 +86,9 @@ export const getProductById = async (id: string) => {
 
 export const updateUserPreference = async (preferences: string[]) => {
   try {
+    const user_id = getUserId();
     const response = await axios.post(`${API_BASE_URL}/users`, {
-      user_id: "user234",
+      user_id: user_id,
       metadata: {
         preferences: {
           favorite_categories: preferences,
@@ -97,6 +104,7 @@ export const updateUserPreference = async (preferences: string[]) => {
 
 export const getWishlist = async (user_id: string = "user123") => {
   try {
+    const user_id = getUserId();
     const response = await axios.get(`${API_BASE_URL}/wishlist/${user_id}`);
     return response.data;
   } catch (error) {
@@ -105,24 +113,29 @@ export const getWishlist = async (user_id: string = "user123") => {
   }
 };
 
-export const removeFromWishlist = async (user_id: string = "user123", item_id: string) => {
+export const removeFromWishlist = async (
+  user_id: string = "user123",
+  item_id: string
+) => {
   try {
-    const response = await axios.delete(`${API_BASE_URL}/wishlist/${user_id}/${item_id}`);
+    const user_id = getUserId();
+    const response = await axios.delete(
+      `${API_BASE_URL}/wishlist/${user_id}/${item_id}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error removing from wishlist:", error);
     throw error;
   }
-}
+};
 
 export const handleBackApi = async (user_id: string = "user123") => {
   try {
+    const user_id = getUserId();
     const response = await axios.post(`${API_BASE_URL}/undo-swipe/${user_id}`);
     return response.data;
   } catch (error) {
     console.error("Error removing from wishlist:", error);
     throw error;
   }
-}
-
-
+};
