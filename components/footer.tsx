@@ -4,7 +4,7 @@ export default function Footer() {
   const router = useRouter();
   return (
     <>
-      <div className="fixed px-4 pt-4 mb-2 bottom-0 w-full border-t border-gray-200">
+      <div className="sticky px-4 pt-4 mb-2 bottom-0 w-full border-t border-gray-200">
         <div className="w-full bg-white flex justify-between items-center mb-2">
           <div className="flex flex-col items-center">
             <img src="home.png" alt="Home" className="h-6 mb-1" />
