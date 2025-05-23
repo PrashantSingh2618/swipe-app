@@ -48,10 +48,6 @@ export default function Wishlist() {
 
   return <div className={styles.wishlistContainer}>
     <UndoHeader
-      undoHistory={undoHistory}
-      onUndo={(newHistory: any) => {
-        setUndoHistory(newHistory);
-      }}
       hideBackButton
     />
     {
