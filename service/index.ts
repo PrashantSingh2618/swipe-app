@@ -4,7 +4,7 @@ const API_BASE_URL =
   "http://ec2-13-234-240-99.ap-south-1.compute.amazonaws.com:8000";
 
 const getUserId = () => {
-  const userId = localStorage.getItem("userId") || "user123";
+  const userId = localStorage.getItem("userId") || "user1";
   console.log("userId", userId);
   return userId;
 };
@@ -49,7 +49,7 @@ export const handleSwipeApi = async (productId: number, actionType: number) => {
 export const getRecommendationsApi = async () => {
   try {
     const response = await axios.post(`${API_BASE_URL}/recommendations`, {
-      user_id: "user123",
+      user_id: getUserId(),
     });
     return response.data;
   } catch (error) {
