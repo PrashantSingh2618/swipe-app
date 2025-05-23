@@ -24,7 +24,8 @@ export default function UndoHeader({ onUndo, hideBackButton = false }: UndoHeade
       )}
 
       <div onClick={() => {
-        router.push('/')
+        window.location.href= '/'
+        // router.push('/')
       }}>
         <img src="Logo.png" alt="quince logo" className="h-8" />
       </div>
