@@ -6,6 +6,8 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import StarRating from "./star-rating"
 import type { Product } from "@/lib/products"
+import classnames from "classnames"
+import styles from './styles.module.scss';
 
 interface ProductDetailsProps {
   product: Product
@@ -50,10 +52,10 @@ export default function ProductDetails({ product, onClose, onAddToCart }: Produc
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-screen">
       {/* Header with Image */}
       <motion.div
-        className="relative"
+        className="relative flex-shrink-0"
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.1 }}
@@ -67,7 +69,9 @@ export default function ProductDetails({ product, onClose, onAddToCart }: Produc
           <X size={20} />
         </motion.button>
 
-        <div className="relative h-70 overflow-hidden">
+        <div className={classnames("relative overflow-hidden", {
+          [styles.productDetailsImage]: true,
+        })}>
           <AnimatePresence custom={direction} mode="popLayout">
             <motion.img
               key={currentImageIndex}
@@ -89,11 +93,11 @@ export default function ProductDetails({ product, onClose, onAddToCart }: Produc
           </AnimatePresence>
 
           {/* Category Chip */}
-          <div className="absolute top-4 left-4 z-10">
+          {/* <div className="absolute top-4 left-4 z-10">
             <div className="bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium">
               {product.category}
             </div>
-          </div>
+          </div> */}
 
           {product.images.length > 1 && (
             <>
@@ -143,138 +147,139 @@ export default function ProductDetails({ product, onClose, onAddToCart }: Produc
       </motion.div>
 
       {/* Scrollable Content */}
-      <motion.div
-        className="flex-1 overflow-y-auto p-4"
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2 }}
-      >
-        <div className="flex justify-between items-start">
-          <motion.h2
-            className="text-xl font-bold"
+      <div className="flex-1 overflow-y-auto pb-20">
+        <motion.div
+          className="p-4"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <div className="flex justify-between items-start">
+            <motion.h2
+              className="text-xl font-bold"
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              {product.name}
+            </motion.h2>
+
+            <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.3 }}>
+              <StarRating rating={product.rating} />
+            </motion.div>
+          </div>
+
+          <motion.div
+            className="flex justify-between items-center mt-2"
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.4 }}
           >
-            {product.name}
-          </motion.h2>
-
-          <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.3 }}>
-            <StarRating rating={product.rating} />
+            <div className="flex items-center space-x-2">
+              <span className="text-lg font-bold">${product.discountedPrice}</span>
+              <span className="text-sm text-gray-500 line-through">${product.price}</span>
+              <motion.span
+                className="text-sm text-green-500"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.5, type: "spring" }}
+              >
+                {Math.round((1 - product.discountedPrice / product.price) * 100)}% OFF
+              </motion.span>
+            </div>
           </motion.div>
-        </div>
 
-        <motion.div
-          className="flex justify-between items-center mt-2"
-          initial={{ x: -20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.4 }}
-        >
-          <div className="flex items-center space-x-2">
-            <span className="text-lg font-bold">${product.discountedPrice}</span>
-            <span className="text-sm text-gray-500 line-through">${product.price}</span>
-            <motion.span
-              className="text-sm text-green-500"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.5, type: "spring" }}
-            >
-              {Math.round((1 - product.discountedPrice / product.price) * 100)}% OFF
-            </motion.span>
-          </div>
+          <motion.div
+            className="mt-4"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            <h3 className="text-sm font-medium">Colors</h3>
+            <div className="flex space-x-2 mt-2">
+              {product.colors.map((color, index) => (
+                <motion.div
+                  key={color}
+                  className={`w-8 h-8 rounded-full cursor-pointer border-2 ${
+                    selectedColor === color ? "border-black" : "border-transparent"
+                  }`}
+                  style={{ backgroundColor: color }}
+                  onClick={() => setSelectedColor(color)}
+                  initial={{ scale: 0, rotate: 180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ delay: 0.6 + index * 0.1, type: "spring" }}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                />
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="mt-4"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            <h3 className="text-[12px] font-medium">Size</h3>
+            <div className="flex space-x-2 mt-2">
+              {product.size.map((size, index) => (
+                <motion.div
+                  key={size}
+                  className={`w-14 h-14 flex items-center justify-center text-lg rounded border transition-colors duration-200 cursor-pointer ${
+                    selectedSize === size ? 'border-black text-black font-semibold' : 'border-gray-300 text-gray-700'
+                  }`}
+                  onClick={() => {
+                    setSelectedSize(size)
+                  }}
+                  initial={{ scale: 0, rotate: 180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ delay: 0.6 + index * 0.1, type: 'spring' }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {size}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="mt-4"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.7 }}
+          >
+            <h3 className="text-sm font-medium">Description</h3>
+            <p className="text-sm text-gray-600 mt-2">{format(product.description)}</p>
+          </motion.div>
+
+          <motion.div
+            className="mt-4"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.8 }}
+          >
+            <h3 className="text-sm font-medium">Features</h3>
+            <ul className="text-sm text-gray-600 mt-2 list-disc pl-5">
+              {product.features.map((feature, index) => (
+                <motion.li
+                  key={index}
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.9 + index * 0.1 }}
+                >
+                  {feature}
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
         </motion.div>
-
-        <motion.div
-          className="mt-4"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          <h3 className="text-sm font-medium">Colors</h3>
-          <div className="flex space-x-2 mt-2">
-            {product.colors.map((color, index) => (
-              <motion.div
-                key={color}
-                className={`w-8 h-8 rounded-full cursor-pointer border-2 ${
-                  selectedColor === color ? "border-black" : "border-transparent"
-                }`}
-                style={{ backgroundColor: color }}
-                onClick={() => setSelectedColor(color)}
-                initial={{ scale: 0, rotate: 180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ delay: 0.6 + index * 0.1, type: "spring" }}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              />
-            ))}
-          </div>
-        </motion.div>
-
-
-        <motion.div
-          className="mt-4"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          <h3 className="text-[12px] font-medium">Size</h3>
-          <div className="flex space-x-2 mt-2">
-            {product.size.map((size, index) => (
-              <motion.div
-                key={size}
-                className={`w-14 h-14 flex items-center justify-center text-lg rounded border transition-colors duration-200 cursor-pointer ${
-                  selectedSize === size ? 'border-black text-black font-semibold' : 'border-gray-300 text-gray-700'
-                }`}
-                onClick={() => {
-                  setSelectedSize(size)
-                }}
-                initial={{ scale: 0, rotate: 180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ delay: 0.6 + index * 0.1, type: 'spring' }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {size}
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        <motion.div
-          className="mt-4"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.7 }}
-        >
-          <h3 className="text-sm font-medium">Description</h3>
-          <p className="text-sm text-gray-600 mt-2">{format(product.description)}</p>
-        </motion.div>
-
-        <motion.div
-          className="mt-4"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.8 }}
-        >
-          <h3 className="text-sm font-medium">Features</h3>
-          <ul className="text-sm text-gray-600 mt-2 list-disc pl-5">
-            {product.features.map((feature, index) => (
-              <motion.li
-                key={index}
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.9 + index * 0.1 }}
-              >
-                {feature}
-              </motion.li>
-            ))}
-          </ul>
-        </motion.div>
-      </motion.div>
+      </div>
 
       {/* Sticky Footer */}
       <motion.div
-        className="sticky bottom-0 left-0 right-0 p-4 bg-white border-t"
+        className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t"
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.3, type: 'spring' }}

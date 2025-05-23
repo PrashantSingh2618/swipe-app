@@ -16,7 +16,7 @@ export default function UndoHeader({ onUndo, hideBackButton = false }: UndoHeade
   const router = useRouter();
 
   return (
-    <div className="flex justify-between items-center mt-4 mb-4 border-b border-gray-200 pb-4 px-4">
+    <div className="flex justify-between items-center mt-4 border-b border-gray-200 pb-4 px-4">
        {!hideBackButton && (
         <div onClick={onUndo}>
            <Icon iconSvg={UndoIcon} />
