@@ -122,9 +122,9 @@ export default function ProductSwiper({
 
             setOpacity(0);
 
-            setTimeout(() => {
-              setOpacity(1);
-            }, 300);
+            // setTimeout(() => {
+            //   setOpacity(1);
+            // }, 250);
 
             controls.set({ x: 0, rotate: 0 });
             x.set(0);
@@ -175,9 +175,9 @@ export default function ProductSwiper({
             setShowCard(true);
             setOpacity(0);
 
-            setTimeout(() => {
-              setOpacity(1);
-            }, 300);
+            // setTimeout(() => {
+            //   setOpacity(1);
+            // }, 250);
 
             controls.set({ x: 0, rotate: 0 });
             x.set(0);
@@ -291,6 +291,9 @@ export default function ProductSwiper({
                 scale,
                 zIndex: showDetails ? 0 : 2,
                 transition: 'opacity 0.4s ease'
+              }}
+              onLoad={() => {
+                setOpacity(1)
               }}
               drag={!showDetails && !isAnimating}
               dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
