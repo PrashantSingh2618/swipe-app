@@ -197,7 +197,7 @@ export default function ProductDetails({ product, onClose, onAddToCart }: Produc
           >
             <h3 className="text-sm font-medium">Colors</h3>
             <div className="flex space-x-2 mt-2">
-              {product.colors.map((color, index) => (
+              {['#37415f', '#9a5631', '#808080'].map((color, index) => (
                 <motion.div
                   key={color}
                   className={`w-8 h-8 rounded-full cursor-pointer border-2 ${
@@ -279,7 +279,7 @@ export default function ProductDetails({ product, onClose, onAddToCart }: Produc
 
       {/* Sticky Footer */}
       <motion.div
-        className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t"
+        className="sticky bottom-0 left-0 right-0 p-4 bg-white border-t"
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.3, type: 'spring' }}

@@ -14,5 +14,10 @@
 
 .productDetailsImage {
   height: 450px;
+  max-height: 35vh;
   background-color: #efefef;
+
+  img {
+    object-fit: contain;
+  }
 }

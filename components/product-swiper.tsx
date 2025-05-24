@@ -25,6 +25,8 @@ interface ProductSwiperProps {
   setUndoHistory: (history: number[]) => void;
   currentIndex: number;
   setCurrentIndex: (index: number) => void;
+  showDetails: boolean;
+  setShowDetails: (show: boolean) => void;
   products: Product[];
   appendMoreProducts: () => Promise<void>;
 }
@@ -35,9 +37,10 @@ export default function ProductSwiper({
   currentIndex,
   setCurrentIndex,
   products,
+  showDetails,
+  setShowDetails,
   appendMoreProducts,
 }: ProductSwiperProps) {
-  const [showDetails, setShowDetails] = useState(false);
   const [cart, setCart] = useState<Product[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [showToast, setShowToast] = useState(false);

@@ -21,6 +21,8 @@ export default function Home() {
     loading: true,
     error: "",
   });
+  const [showDetails, setShowDetails] = useState(false);
+
 
   const getRecommendations = async () => {
     try {
@@ -106,6 +108,8 @@ export default function Home() {
             setUndoHistory={setUndoHistory}
             currentIndex={currentIndex}
             setCurrentIndex={setCurrentIndex}
+            showDetails={showDetails}
+            setShowDetails={setShowDetails}
             appendMoreProducts={getRecommendations}
           />
         ) : (
@@ -115,7 +119,7 @@ export default function Home() {
         )}
       </div>
 
-      <Footer />
+      {!showDetails && <Footer />}
     </main>
   );
 }
