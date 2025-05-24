@@ -42,6 +42,8 @@ export default function ProductSwiper({
   const [isAnimating, setIsAnimating] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [showCard, setShowCard] = useState(true);
+  const [cardOpacity, setOpacity] = useState(1);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -65,7 +67,7 @@ export default function ProductSwiper({
       setShowToast(false);
       const res = await handleSwipeApi(productId, actionType);
       setShowToast(true);
-      setToastMessage(actionType ? "Added to Cart! 🛒": "");
+      setToastMessage(actionType ? "Added to Cart! 🛒" : "");
     } catch (err) {
       console.log("Debug in catch", { err });
       setShowToast(false);
@@ -109,10 +111,19 @@ export default function ProductSwiper({
           },
         })
         .then(() => {
+          setShowCard(false);
           handleSwipe(currentProduct, 1);
           setTimeout(() => {
             setIsAnimating(false);
-            controls.set({ x: 0, rotate: 0, opacity: 1 });
+            setShowCard(true);
+
+            setOpacity(0);
+
+            setTimeout(() => {
+              setOpacity(1);
+            }, 300);
+
+            controls.set({ x: 0, rotate: 0 });
             x.set(0);
             y.set(0);
             if (currentIndex < products.length - 1) {
@@ -141,6 +152,7 @@ export default function ProductSwiper({
           },
         })
         .then(() => {
+          setShowCard(false);
           handleSwipe(currentProduct, 0);
           // registerSwipe()
           // Add current index to undo history
@@ -157,7 +169,14 @@ export default function ProductSwiper({
           // setShowToast(true);
           setTimeout(() => {
             setIsAnimating(false);
-            controls.set({ x: 0, rotate: 0, opacity: 1 });
+            setShowCard(true);
+            setOpacity(0);
+
+            setTimeout(() => {
+              setOpacity(1);
+            }, 300);
+
+            controls.set({ x: 0, rotate: 0 });
             x.set(0);
             y.set(0);
             if (currentIndex < products.length - 1) {
@@ -257,74 +276,79 @@ export default function ProductSwiper({
         </motion.div>
 
         {/* Current Card (Foreground) */}
-        <motion.div
-          className="absolute inset-0 bg-white rounded-xl shadow-lg overflow-hidden cursor-grab active:cursor-grabbing touch-none"
-          style={{
-            x,
-            y,
-            rotate,
-            opacity,
-            scale,
-            zIndex: showDetails ? 0 : 2,
-          }}
-          drag={!showDetails && !isAnimating}
-          dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-          dragElastic={0.2}
-          onDragEnd={handleDragEnd}
-          animate={controls}
-          whileTap={{ scale: 0.98 }}
-          transition={{ type: "spring", stiffness: 400, damping: 40 }}
-        >
-          <div className="h-full flex flex-col pointer-events-none">
-            <div className="relative flex-grow">
-              <img
-                src={currentProduct?.image_url || "/placeholder.svg"}
-                alt={currentProduct.name}
-                className="w-full h-full object-cover"
-              />
+        {
+          !showCard ? null : (
+            <motion.div
+              className="absolute inset-0 bg-white rounded-xl shadow-lg overflow-hidden cursor-grab active:cursor-grabbing touch-none"
+              style={{
+                x,
+                y,
+                rotate,
+                opacity: cardOpacity,
+                scale,
+                zIndex: showDetails ? 0 : 2,
+                transition: 'opacity 0.4s ease'
+              }}
+              drag={!showDetails && !isAnimating}
+              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+              dragElastic={0.2}
+              onDragEnd={handleDragEnd}
+              animate={controls}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 400, damping: 40 }}
+            >
+              <div className="h-full flex flex-col pointer-events-none">
+                <div className="relative flex-grow">
+                  <img
+                    src={currentProduct?.image_url || "/placeholder.svg"}
+                    alt={currentProduct.name}
+                    className="w-full h-full object-cover"
+                  />
 
-              {/* Category Chip */}
-              {/* <div className="absolute top-4 left-4">
+                  {/* Category Chip */}
+                  {/* <div className="absolute top-4 left-4">
                 <div className="bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-[12px] font-medium">
                   {currentProduct.category}
                 </div>
               </div> */}
 
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-4">
-                <div className="flex justify-between items-end">
-                  <div>
-                    <h2 className="text-[16px] font-bold text-white">
-                      {currentProduct.name}
-                    </h2>
-                    <div className="flex items-center mt-1 mb-2">
-                      <StarRating rating={currentProduct.rating} size={14} />
-                      <span className="text-[12px] text-white ml-1">
-                        {currentProduct.rating.toFixed(1)}
-                      </span>
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-4">
+                    <div className="flex justify-between items-end">
+                      <div>
+                        <h2 className="text-[16px] font-bold text-white">
+                          {currentProduct.name}
+                        </h2>
+                        <div className="flex items-center mt-1 mb-2">
+                          <StarRating rating={currentProduct.rating} size={14} />
+                          <span className="text-[12px] text-white ml-1">
+                            {currentProduct.rating.toFixed(1)}
+                          </span>
+                        </div>
+                        <div className="flex space-x-2">
+                          {currentProduct.colors.map((color) => (
+                            <div
+                              key={color}
+                              className="w-4 h-4 rounded-full border border-white"
+                              style={{ backgroundColor: color }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[16px] font-bold text-white">
+                          ${currentProduct.discountedPrice}
+                        </p>
+                        <p className="text-[15px] text-gray-300 line-through">
+                          ${currentProduct.price}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex space-x-2">
-                      {currentProduct.colors.map((color) => (
-                        <div
-                          key={color}
-                          className="w-4 h-4 rounded-full border border-white"
-                          style={{ backgroundColor: color }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-[16px] font-bold text-white">
-                      ${currentProduct.discountedPrice}
-                    </p>
-                    <p className="text-[15px] text-gray-300 line-through">
-                      ${currentProduct.price}
-                    </p>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </motion.div>
+            </motion.div>
+          )
+        }
 
         {/* Product Details Overlay */}
         {showDetails && (
@@ -342,7 +366,7 @@ export default function ProductSwiper({
                 setShowDetails(false);
               }}
               onAddToCart={() => {
-                addToCart(currentProduct);
+                // addToCart(currentProduct);
                 setShowDetails(false);
                 setTimeout(() => {
                   if (currentIndex < products.length - 1) {
