@@ -11,7 +11,7 @@ import {
 import ProductDetails from "./product-details";
 import Toast from "./toast";
 import StarRating from "./star-rating";
-import { type Product, products } from "@/lib/products";
+import { type Product } from "@/lib/products";
 import { handleSwipeApi } from "@/service";
 import classnames from "classnames";
 
@@ -122,10 +122,6 @@ export default function ProductSwiper({
 
             setOpacity(0);
 
-            // setTimeout(() => {
-            //   setOpacity(1);
-            // }, 250);
-
             controls.set({ x: 0, rotate: 0 });
             x.set(0);
             y.set(0);
@@ -137,7 +133,7 @@ export default function ProductSwiper({
           }, 300);
         });
     } else if (info.offset.x < -threshold || velocity < -500) {
-      // Swiped left - discard and add to undo history
+      // Swiped left - discard and append new products
       if (currentIndex >= products.length - 2) {
         appendMoreProducts();
       }
@@ -157,16 +153,6 @@ export default function ProductSwiper({
         .then(() => {
           setShowCard(false);
           handleSwipe(currentProduct, 0);
-          // registerSwipe()
-          // Add current index to undo history
-          // setUndoHistory((prev) => {
-          //   // Keep only the last N-1 items to make room for the new one
-          //   const newHistory = [...prev];
-          //   if (newHistory.length >= UNDO_HISTORY_SIZE) {
-          //     newHistory.pop(); // Remove the oldest item
-          //   }
-          //   return [currentIndex, ...newHistory]; // Add new item at the beginning
-          // });
 
           // setToastMessage("Product discarded");
           // setShowToast(true);
@@ -174,10 +160,6 @@ export default function ProductSwiper({
             setIsAnimating(false);
             setShowCard(true);
             setOpacity(0);
-
-            // setTimeout(() => {
-            //   setOpacity(1);
-            // }, 250);
 
             controls.set({ x: 0, rotate: 0 });
             x.set(0);
@@ -306,17 +288,11 @@ export default function ProductSwiper({
               <div className="h-full flex flex-col pointer-events-none">
                 <div className="relative flex-grow">
                   <img
-                    src={currentProduct?.image_url || "/placeholder.svg"}
+                    src={currentProduct?.sora_image || "/placeholder.svg"}
                     alt={currentProduct.name}
                     className="w-full h-full object-cover"
                   />
 
-                  {/* Category Chip */}
-                  {/* <div className="absolute top-4 left-4">
-                <div className="bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-[12px] font-medium">
-                  {currentProduct.category}
-                </div>
-              </div> */}
 
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-4">
                     <div className="flex justify-between items-end">

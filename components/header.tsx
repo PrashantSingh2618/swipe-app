@@ -12,7 +12,7 @@ interface UndoHeaderProps {
   hideBackButton?: boolean
 }
 
-export default function UndoHeader({ onUndo, hideBackButton = false }: UndoHeaderProps) {
+export default function Header({ onUndo, hideBackButton = false }: UndoHeaderProps) {
   const router = useRouter();
 
   return (

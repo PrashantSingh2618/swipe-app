@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import heartIcon from '@/public/heart.inline.svg';
 
-import UndoHeader from '@/components/undo-header';
+import UndoHeader from '@/components/header';
 import styles from './styles.module.scss'
 import Icon from '@/components/ui/icon';
 import { getWishlist, removeFromWishlist } from '@/service';

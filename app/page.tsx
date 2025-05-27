@@ -2,7 +2,7 @@
 
 import Footer from "@/components/footer";
 import ProductSwiper from "@/components/product-swiper";
-import UndoHeader from "@/components/undo-header";
+import Header from "@/components/header";
 import { Product, products } from "@/lib/products";
 import { getProductDetails, getRecommendationsApi, getSoraImage, handleBackApi } from "@/service";
 import { useEffect, useState } from "react";
@@ -43,6 +43,8 @@ export default function Home() {
             getSoraImage(productId),
             getProductDetails(productId),
           ]);
+
+          console.log('Debug ', {productDetails})
 
           return {
             productId,
@@ -98,7 +100,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between md:p-8">
       <div className="w-full max-w-lg mx-auto flex flex-col flex-grow">
-        <UndoHeader
+        <Header
           onUndo={handleUndo}
         />
         {products?.data.length > 0 ? (
