@@ -2,6 +2,9 @@
 
 A modern shopping experience powered by intuitive swipe-based interactions and intelligent product discovery.
 
+# Demo
+https://swipeapp-ivory.vercel.app/
+
 ## ✨ Overview
 
 This is a demo of a shopping app that allows users to discover and interact with products using swipe gestures. It features a smooth onboarding flow where customers can select their interests, which are then used to personalize product recommendations.
